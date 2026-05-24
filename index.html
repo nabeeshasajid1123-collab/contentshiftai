@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ContentShift – Repurpose Your Content</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <header>
+      <h1>ContentShift</h1>
+      <p>Paste your content. Pick your platform and format. Get it repurposed instantly.</p>
+    </header>
+
+    <section class="input-section">
+      <label for="userContent">Your Content</label>
+      <textarea id="userContent" placeholder="Paste your blog post, transcript, newsletter, or any long-form content here..."></textarea>
+    </section>
+
+    <section class="platforms-section">
+      <label>Select Platform</label>
+      <div class="platform-buttons">
+        <button class="platform-btn" data-platform="Instagram">Instagram</button>
+        <button class="platform-btn" data-platform="LinkedIn">LinkedIn</button>
+        <button class="platform-btn" data-platform="Twitter">Twitter / X</button>
+        <button class="platform-btn" data-platform="Threads">Threads</button>
+        <button class="platform-btn" data-platform="YouTube">YouTube</button>
+      </div>
+    </section>
+
+    <section class="format-section hidden" id="formatSection">
+      <label>Select Format</label>
+      <div class="format-buttons" id="formatButtons"></div>
+    </section>
+
+    <button id="repurposeBtn">Repurpose My Content</button>
+
+    <div id="loading" class="hidden">Generating your content...</div>
+
+    <section id="outputSection" class="hidden">
+      <h2>Your Repurposed Content</h2>
+      <div id="outputCards"></div>
+    </section>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
