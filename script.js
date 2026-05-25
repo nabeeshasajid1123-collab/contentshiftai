@@ -1,6 +1,3 @@
-const API_KEY = "";
-const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
-
 const formats = {
   Instagram: ["Reel Script", "Carousel", "Single Post"],
   LinkedIn: ["Story Post", "Carousel", "How-To"],
@@ -175,7 +172,7 @@ Output only the post. Nothing else.`,
 
 Rules:
 - Post 1 (Hook): Bold opinion or surprising statement. Under 300 characters. Makes them want to read the next post.
-- Posts 2-6 (Build): Each post adds one new point or insight. Short, conversational, one idea only. Each feels incomplete without the next.
+- Posts 2-6 (Build): Each post adds one new point or insight. Short, conversational, one idea only.
 - Post 7 (Kicker): One punchy closing thought or question that invites replies.
 - Write like a real person thinking out loud — casual, direct, no corporate tone.
 - No hashtags.
@@ -200,7 +197,7 @@ Output with clear sections: HOOK / BODY / CTA`,
 Rules:
 - HOOK (0-10 sec): Deliver the biggest result or most surprising fact immediately. Create a curiosity loop. [on-screen text]
 - INTRO (10-60 sec): Validate their click, raise the stakes, hint at the payoff.
-- BODY: Break into 4-6 segments. Each segment has a mini-hook at the start. Add pattern interrupt every 60-90 seconds — [cut to b-roll] [show graphic] etc.
+- BODY: Break into 4-6 segments. Each segment has a mini-hook at the start. Add pattern interrupt every 60-90 seconds.
 - MID-POINT HOOK (50% mark): Re-engage viewer with a reminder of what is coming.
 - CTA: One clear action at 70% mark and again at the end.
 - Write conversationally — short sentences, contractions, natural rhythm.
@@ -214,10 +211,9 @@ Rules for Titles (give 5 options):
 - Each title under 60 characters.
 - Use proven formulas: number + result, curiosity gap, transformation promise, why instead of how to.
 - Include the main keyword naturally.
-- Avoid clickbait — deliver on the promise.
 
 Rules for Description:
-- First 2 lines are the hook — shows before "show more" — make them click.
+- First 2 lines are the hook — shows before show more — make them click.
 - 150-200 words total.
 - Include main keyword in first sentence.
 - 3-5 timestamps as placeholders like [0:00] [2:30] etc.
@@ -294,19 +290,16 @@ document.getElementById("repurposeBtn").addEventListener("click", async () => {
     const promptKey = `${selectedPlatform}_${selectedFormat}`;
     const prompt = `${prompts[promptKey]}\n\nOriginal content:\n${content}`;
 
-    const response = await fetch(API_URL, {
+    const response = await fetch("/.netlify/functions/repurpose", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "x-goog-api-key": API_KEY
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }]
-      })
+      body: JSON.stringify({ prompt })
     });
 
     const data = await response.json();
-    const result = data.candidates?.[0]?.content?.parts?.[0]?.text || "Something went wrong.";
+    const result = data.result || "Something went wrong.";
 
     const card = document.createElement("div");
     card.className = "output-card";
@@ -319,7 +312,7 @@ document.getElementById("repurposeBtn").addEventListener("click", async () => {
     outputSection.classList.remove("hidden");
 
   } catch (err) {
-    alert("Error calling Gemini API. Check your API key and try again.");
+    alert("Error. Please try again.");
     console.error(err);
   } finally {
     loading.classList.add("hidden");
