@@ -298,8 +298,12 @@ document.getElementById("repurposeBtn").addEventListener("click", async () => {
       body: JSON.stringify({ prompt })
     });
 
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status}`);
+    }
+
     const data = await response.json();
-    const result = data.result || "Something went wrong.";
+    const result = data.result || data.error || "Something went wrong.";
 
     const card = document.createElement("div");
     card.className = "output-card";
@@ -312,7 +316,7 @@ document.getElementById("repurposeBtn").addEventListener("click", async () => {
     outputSection.classList.remove("hidden");
 
   } catch (err) {
-    alert("Error. Please try again.");
+    alert("Error: " + (err.message || "Please try again."));
     console.error(err);
   } finally {
     loading.classList.add("hidden");
